@@ -1,0 +1,33 @@
+name: Continuous Integration
+on:
+    pull_request:
+        branches:
+            - main
+jobs:
+    ci:
+        name: Continuous Integration
+        runs-on: ubuntu-latest
+        steps:
+            - name: Checkout
+              uses: actions/checkout@v2
+
+            - name: Setup Node
+              uses: actions/setup-node@v1
+              with:
+                  node-version: 12
+                  registry-url: https://registry.npmjs.org/
+
+            - name: Yarn Install
+              run: yarn install
+
+            - name: Lint
+              run: yarn lint
+
+            - name: Check Formatting
+              run: yarn test-format
+
+            - name: Build Library
+              run: yarn build-types
+
+            - name: Run Tests
+              run: yarn test
